@@ -8,6 +8,7 @@
 ## MCP 도구 사용법
 
 데이터는 JSON 파일을 직접 수정하지 않고 **MCP 도구를 통해** 읽고 씁니다.
+MCP 서버는 `knowmore-mcp/server.py`에 구현되어 있으며, knowmore-data 레포를 직접 관리합니다.
 
 | 도구 | 용도 |
 |------|------|
@@ -17,6 +18,16 @@
 | `replace_cards(topic_id, cards)` | 카드 전체 교체 (hot_issues 업데이트 시 사용) |
 | `add_cards(topic_id, cards)` | 기존 카드에 새 카드 추가 (일반 주제 업데이트 시 사용) |
 | `push_to_github(message)` | 변경사항을 GitHub에 커밋·푸시 |
+
+### knowmore-mcp 연동
+
+knowmore-mcp 서버(`../knowmore-mcp/`)는 데이터 관리 외에 **트렌드 조사** 기능도 제공합니다:
+
+- `scheduler.py`: RSS 피드 + Naver DataLab API로 최신 트렌드를 수집
+- hot_issues 업데이트 시 참고할 수 있는 검색량·뉴스 데이터를 제공
+- MCP 서버 등록: `claude mcp add knowmore -- python ../knowmore-mcp/server.py`
+
+이슈 카드 업데이트 시 MCP 도구의 `get_existing_words`로 중복 확인 + WebSearch로 트렌드 조사를 병행하세요.
 
 ### topic_id 값
 
